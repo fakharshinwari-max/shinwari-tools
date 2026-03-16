@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file, jsonify
+from flask import Flask, render_template, request, send_file
 import os
 
 app = Flask(__name__)
@@ -95,19 +95,27 @@ def text_to_pdf():
                 from reportlab.lib.units import mm
                 from reportlab.lib.enums import TA_LEFT
 
-                output_path = os.path.abspath(os.path.join(STATIC_FOLDER, 'output.pdf'))
-                doc = SimpleDocTemplate(output_path, pagesize=A4,
+                output_path = os.path.abspath(
+                    os.path.join(STATIC_FOLDER, 'output.pdf')
+                )
+                doc = SimpleDocTemplate(
+                    output_path, pagesize=A4,
                     rightMargin=15*mm, leftMargin=15*mm,
-                    topMargin=15*mm, bottomMargin=15*mm)
-                style = ParagraphStyle('custom', fontSize=11,
-                    leading=16, wordWrap='LTR', alignment=TA_LEFT)
+                    topMargin=15*mm, bottomMargin=15*mm
+                )
+                style = ParagraphStyle(
+                    'custom', fontSize=11,
+                    leading=16, wordWrap='LTR', alignment=TA_LEFT
+                )
                 story = []
                 for line in text.split('\n'):
                     line = line.strip()
                     if line == '':
                         story.append(Spacer(1, 6))
                     else:
-                        line = line.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
+                        line = line.replace('&','&amp;')
+                        line = line.replace('<','&lt;')
+                        line = line.replace('>','&gt;')
                         while len(line) > 500:
                             story.append(Paragraph(line[:500], style))
                             line = line[500:]
@@ -121,7 +129,7 @@ def text_to_pdf():
     return render_template('text_to_pdf.html', message=message, error=error)
 
 # ============================================================
-# IMAGE TO TEXT (OCR)
+# IMAGE TO TEXT
 # ============================================================
 @app.route('/image-to-text', methods=['GET', 'POST'])
 def image_to_text():
@@ -158,112 +166,55 @@ def word_to_pdf():
     error = ''
     if request.method == 'POST':
         try:
-            from docx import Document
-            from reportlab.lib.pagesizes import A4
-            from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
-            from reportlab.lib.styles import ParagraphStyle
-            from reportlab.lib.units import mm
-
             file = request.files.get('word_file')
             if file and file.filename.endswith('.docx'):
                 path = os.path.join(UPLOAD_FOLDER, file.filename)
                 file.save(path)
-                doc = Document(path)
-                text = '\n'.join([para.text for para in doc.paragraphs])
-                output_path = os.path.abspath(os.path.join(STATIC_FOLDER, 'word_output.pdf'))
-                style = ParagraphStyle('custom', fontSize=11, leading=16)
-                story = []
-                d = SimpleDocTemplate(output_path, pagesize=A4,
-                    rightMargin=15*mm, leftMargin=15*mm,
-                    topMargin=15*mm, bottomMargin=15*mm)
-                for line in text.split('\n'):
-                    line = line.strip()
-                    if line == '':
-                        story.append(Spacer(1, 6))
-                    else:
-                        line = line.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
-                        story.append(Paragraph(line, style))
-                d.build(story)
-                message = 'success'
+                output_path = os.path.abspath(
+                    os.path.join(STATIC_FOLDER, 'word_output.pdf')
+                )
+                try:
+                    from docx2pdf import convert
+                    convert(path, output_path)
+                    print("Converted using docx2pdf")
+                except Exception as e1:
+                    print(f"docx2pdf failed: {e1}")
+                    from docx import Document
+                    from reportlab.lib.pagesizes import A4
+                    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+                    from reportlab.lib.styles import ParagraphStyle
+                    from reportlab.lib.units import mm
+                    doc = Document(path)
+                    text = '\n'.join([p.text for p in doc.paragraphs])
+                    d = SimpleDocTemplate(
+                        output_path, pagesize=A4,
+                        rightMargin=15*mm, leftMargin=15*mm,
+                        topMargin=15*mm, bottomMargin=15*mm
+                    )
+                    style = ParagraphStyle('custom', fontSize=11, leading=16)
+                    story = []
+                    for line in text.split('\n'):
+                        line = line.strip()
+                        if line:
+                            line = line.replace('&','&amp;')
+                            line = line.replace('<','&lt;')
+                            line = line.replace('>','&gt;')
+                            story.append(Paragraph(line, style))
+                        else:
+                            story.append(Spacer(1, 6))
+                    d.build(story)
+                    print("Converted using reportlab fallback")
+
+                if os.path.exists(output_path):
+                    message = 'success'
+                else:
+                    error = 'PDF was not created!'
             else:
-                error = 'Please upload a .docx file!'
+                error = 'Please upload a valid .docx file!'
         except Exception as e:
             error = str(e)
+            print(f"ERROR: {e}")
     return render_template('word_to_pdf.html', message=message, error=error)
-
-# ============================================================
-# TRANSLATOR
-# ============================================================
-@app.route('/translator', methods=['GET', 'POST'])
-def translator():
-    result = ''
-    message = ''
-    error = ''
-    if request.method == 'POST':
-        try:
-            from deep_translator import GoogleTranslator
-            text = request.form.get('text', '')
-            source = request.form.get('source', 'ur')
-            target = request.form.get('target', 'en')
-            if text.strip():
-                result = GoogleTranslator(source=source, target=target).translate(text)
-                message = 'success'
-            else:
-                error = 'Please enter text!'
-        except Exception as e:
-            error = str(e)
-    return render_template('translator.html', result=result, message=message, error=error)
-
-# ============================================================
-# QR CODE GENERATOR
-# ============================================================
-@app.route('/qr-generator', methods=['GET', 'POST'])
-def qr_generator():
-    message = ''
-    error = ''
-    if request.method == 'POST':
-        try:
-            import qrcode
-            text = request.form.get('text', '')
-            if text.strip():
-                qr = qrcode.QRCode(version=1, box_size=10, border=4)
-                qr.add_data(text)
-                qr.make(fit=True)
-                img = qr.make_image(fill_color="black", back_color="white")
-                img.save(os.path.join(STATIC_FOLDER, 'qrcode.png'))
-                message = 'success'
-            else:
-                error = 'Please enter text or URL!'
-        except Exception as e:
-            error = str(e)
-    return render_template('qr_generator.html', message=message, error=error)
-
-# ============================================================
-# IMAGE CONVERTER
-# ============================================================
-@app.route('/image-converter', methods=['GET', 'POST'])
-def image_converter():
-    message = ''
-    error = ''
-    if request.method == 'POST':
-        try:
-            from PIL import Image
-            file = request.files.get('image_file')
-            fmt = request.form.get('format', 'PNG')
-            if file:
-                path = os.path.join(UPLOAD_FOLDER, file.filename)
-                file.save(path)
-                img = Image.open(path)
-                output_path = os.path.join(STATIC_FOLDER, f'converted.{fmt.lower()}')
-                if fmt == 'JPEG' and img.mode == 'RGBA':
-                    img = img.convert('RGB')
-                img.save(output_path, fmt)
-                message = 'success'
-            else:
-                error = 'Please upload an image!'
-        except Exception as e:
-            error = str(e)
-    return render_template('image_converter.html', message=message, error=error)
 
 # ============================================================
 # PDF TO WORD
@@ -286,7 +237,6 @@ def pdf_to_word():
                 cv.convert(docx_path, start=0, end=None)
                 cv.close()
                 if os.path.exists(docx_path):
-                    print(f"DOCX created! Size: {os.path.getsize(docx_path)} bytes")
                     message = 'success'
                 else:
                     error = 'File was not created!'
@@ -296,17 +246,101 @@ def pdf_to_word():
             error = str(e)
             print(f"ERROR: {e}")
     return render_template('pdf_to_word.html', message=message, error=error)
+
+# ============================================================
+# TRANSLATOR
+# ============================================================
+@app.route('/translator', methods=['GET', 'POST'])
+def translator():
+    result = ''
+    message = ''
+    error = ''
+    if request.method == 'POST':
+        try:
+            from deep_translator import GoogleTranslator
+            text = request.form.get('text', '')
+            source = request.form.get('source', 'ur')
+            target = request.form.get('target', 'en')
+            if text.strip():
+                result = GoogleTranslator(
+                    source=source, target=target
+                ).translate(text)
+                message = 'success'
+            else:
+                error = 'Please enter text!'
+        except Exception as e:
+            error = str(e)
+    return render_template('translator.html', result=result, message=message, error=error)
+
+# ============================================================
+# QR CODE GENERATOR
+# ============================================================
+@app.route('/qr-generator', methods=['GET', 'POST'])
+def qr_generator():
+    message = ''
+    error = ''
+    if request.method == 'POST':
+        try:
+            import qrcode
+            text = request.form.get('text', '')
+            if text.strip():
+                qr = qrcode.QRCode(version=1, box_size=10, border=4)
+                qr.add_data(text)
+                qr.make(fit=True)
+                img = qr.make_image(
+                    fill_color="black", back_color="white"
+                )
+                img.save(os.path.join(STATIC_FOLDER, 'qrcode.png'))
+                message = 'success'
+            else:
+                error = 'Please enter text or URL!'
+        except Exception as e:
+            error = str(e)
+    return render_template('qr_generator.html', message=message, error=error)
+
+# ============================================================
+# IMAGE CONVERTER
+# ============================================================
+@app.route('/image-converter', methods=['GET', 'POST'])
+def image_converter():
+    message = ''
+    error = ''
+    output_file = ''
+    if request.method == 'POST':
+        try:
+            from PIL import Image
+            file = request.files.get('image_file')
+            fmt = request.form.get('format', 'PNG')
+            if file:
+                path = os.path.join(UPLOAD_FOLDER, file.filename)
+                file.save(path)
+                output_file = f'converted.{fmt.lower()}'
+                output_path = os.path.join(STATIC_FOLDER, output_file)
+                img = Image.open(path)
+                if fmt == 'JPEG' and img.mode == 'RGBA':
+                    img = img.convert('RGB')
+                img.save(output_path, fmt)
+                message = 'success'
+            else:
+                error = 'Please upload an image!'
+        except Exception as e:
+            error = str(e)
+    return render_template(
+        'image_converter.html',
+        message=message, error=error, output_file=output_file
+    )
+
 # ============================================================
 # DOWNLOADS
 # ============================================================
 @app.route('/download/<filename>')
 def download(filename):
     allowed = [
-    'output.mp3', 'output.pdf', 'extracted.txt',
-    'word_output.pdf', 'qrcode.png', 'ocr.txt',
-    'converted.png', 'converted.jpg', 'converted.webp',
-    'output.docx'  # add this line
-]
+        'output.mp3', 'output.pdf', 'extracted.txt',
+        'word_output.pdf', 'qrcode.png', 'ocr.txt',
+        'converted.png', 'converted.jpg', 'converted.webp',
+        'converted.bmp', 'converted.ico', 'output.docx'
+    ]
     if filename in allowed:
         path = os.path.abspath(os.path.join(STATIC_FOLDER, filename))
         if os.path.exists(path):
