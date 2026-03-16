@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Shinwari Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f4ff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 25px 30px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .brand {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .user-info { font-size: 14px; color: #555; }
+        .user-info span { font-weight: 700; color: #333; }
+        .plan-badge {
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .plan-free { background: #e8f5e9; color: #4CAF50; }
+        .plan-basic { background: #e3f2fd; color: #2196F3; }
+        .plan-pro { background: #fff3e0; color: #FF9800; }
+        .nav-links { display: flex; gap: 10px; flex-wrap: wrap; }
+        .nav-links a {
+            padding: 8px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-home { background: #f0f4ff; color: #555; }
+        .btn-upgrade { background: linear-gradient(135deg, #4CAF50, #2196F3); color: white; }
+        .btn-logout { background: #ffe0e0; color: #e53935; }
+        h2 { color: #1a1a2e; font-size: 20px; margin-bottom: 20px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .usage-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+        .usage-card .tool-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .usage-card .counts {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        .progress-bar {
+            background: #f0f0f0;
+            border-radius: 50px;
+            height: 8px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            transition: width 0.5s;
+        }
+        .progress-fill.danger { background: linear-gradient(135deg, #FF9800, #e53935); }
+        .upgrade-banner {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 25px;
+        }
+        .upgrade-banner h3 { font-size: 20px; margin-bottom: 10px; }
+        .upgrade-banner p { color: #aaa; font-size: 14px; margin-bottom: 20px; }
+        .upgrade-btn {
+            display: inline-block;
+            padding: 12px 35px;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div>
+            <div class="brand">Shinwari Tools</div>
+            <div class="user-info">
+                Welcome, <span>{{ current_user.name }}</span> |
+                <span class="plan-badge plan-{{ plan }}">{{ plan }} Plan</span>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-links btn-home">🏠 Home</a>
+            <a href="/pricing" class="nav-links btn-upgrade">⭐ Upgrade</a>
+            <a href="/logout" class="nav-links btn-logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- Usage -->
+    <h2>📊 Today's Usage</h2>
+    <div class="grid">
+
+        <div class="usage-card">
+            <div class="tool-name">🎙️ Text to Speech</div>
+            <div class="counts">{{ usage_data.tts.used }} / {{ usage_data.tts.limit }} words used</div>
+            <div class="progress-bar">
+                <div class="progress-fill {% if usage_data.tts.percent > 80 %}danger{% endif %}"
+                     style="width: {{ usage_data.tts.percent }}%"></div>
+            </div>
+        </div>
+
+        <div class="usage-card">
+            <div class="tool-name">📄 PDF to Text</div>
+            <div class="counts">{{ usage_data.pdf_to_text.used }} / {{ usage_data.pdf_to_text.limit }} files used</div>
+            <div class="progress-bar">
+                <div class="progress-fill {% if usage_data.pdf_to_text.percent > 80 %}danger{% endif %}"
+                     style="width: {{ usage_data.pdf_to_text.percent }}%"></div>
+            </div>
+        </div>
+
+        <div class="usage-card">
+            <div class="tool-name">📝 Text to PDF</div>
+            <div class="counts">{{ usage_data.text_to_pdf.used }} / {{ usage_data.text_to_pdf.limit }} files used</div>
+            <div class="progress-bar">
+                <div class="progress-fill {% if usage_data.text_to_pdf.percent > 80 %}danger{% endif %}"
+                     style="width: {{ usage_data.text_to_pdf.percent }}%"></div>
+            </div>
+        </div>
+
+        <div class="usage-card">
+            <div class="tool-name">📱 QR Generator</div>
+            <div class="counts">{{ usage_data.qr.used }} / {{ usage_data.qr.limit }} QR codes used</div>
+            <div class="progress-bar">
+                <div class="progress-fill {% if usage_data.qr.percent > 80 %}danger{% endif %}"
+                     style="width: {{ usage_data.qr.percent }}%"></div>
+            </div>
+        </div>
+
+        <div class="usage-card">
+            <div class="tool-name">🌍 Translator</div>
+            <div class="counts">{{ usage_data.translator.used }} / {{ usage_data.translator.limit }} words used</div>
+            <div class="progress-bar">
+                <div class="progress-fill {% if usage_data.translator.percent > 80 %}danger{% endif %}"
+                     style="width: {{ usage_data.translator.percent }}%"></div>
+            </div>
+        </div>
+
+        <div class="usage-card">
+            <div class="tool-name">🖼️ Image Converter</div>
+            <div class="counts">{{ usage_data.image.used }} / {{ usage_data.image.limit }} images used</div>
+            <div class="progress-bar">
+                <div class="progress-fill {% if usage_data.image.percent > 80 %}danger{% endif %}"
+                     style="width: {{ usage_data.image.percent }}%"></div>
+            </div>
+        </div>
+
+        <div class="usage-card">
+            <div class="tool-name">📃 Word to PDF</div>
+            <div class="counts">{{ usage_data.word_to_pdf.used }} / {{ usage_data.word_to_pdf.limit }} files used</div>
+            <div class="progress-bar">
+                <div class="progress-fill {% if usage_data.word_to_pdf.percent > 80 %}danger{% endif %}"
+                     style="width: {{ usage_data.word_to_pdf.percent }}%"></div>
+            </div>
+        </div>
+
+        <div class="usage-card">
+            <div class="tool-name">📋 PDF to Word</div>
+            <div class="counts">{{ usage_data.pdf_to_word.used }} / {{ usage_data.pdf_to_word.limit }} files used</div>
+            <div class="progress-bar">
+                <div class="progress-fill {% if usage_data.pdf_to_word.percent > 80 %}danger{% endif %}"
+                     style="width: {{ usage_data.pdf_to_word.percent }}%"></div>
+            </div>
+        </div>
+
+        <div class="usage-card">
+            <div class="tool-name">🖼️ Image to Text</div>
+            <div class="counts">{{ usage_data.image_to_text.used }} / {{ usage_data.image_to_text.limit }} files used</div>
+            <div class="progress-bar">
+                <div class="progress-fill {% if usage_data.image_to_text.percent > 80 %}danger{% endif %}"
+                     style="width: {{ usage_data.image_to_text.percent }}%"></div>
+            </div>
+        </div>
+
+    </div>
+
+    {% if plan == 'free' %}
+    <div class="upgrade-banner">
+        <h3>⭐ Upgrade to Pro</h3>
+        <p>Get unlimited access to all tools every day!</p>
+        <a href="/pricing" class="upgrade-btn">View Plans →</a>
+    </div>
+    {% endif %}
+
+</body>
+</html>

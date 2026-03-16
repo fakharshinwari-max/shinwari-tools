@@ -2,13 +2,73 @@
 {% block title %}QR Generator{% endblock %}
 {% block content %}
 <h1>📱 QR Code Generator</h1>
-<p class="subtitle">Create QR codes for any text or URL</p>
+<p class="subtitle">Create beautiful QR codes with images and colors</p>
 <a href="/" class="back-btn">← Back to Tools</a>
 
-<form method="POST">
-    <textarea name="text" placeholder="Enter text or URL to generate QR code..."
-              style="height:150px"></textarea>
-    <button type="submit" class="submit-btn">📱 Generate QR Code</button>
+<form method="POST" enctype="multipart/form-data">
+
+    <!-- URL/Text input -->
+    <textarea
+        name="text"
+        placeholder="Enter text or URL..."
+        style="height:100px"
+        required
+    ></textarea>
+
+    <!-- Colors -->
+    <div style="display:flex; gap:15px; margin-top:15px;">
+        <div style="flex:1">
+            <p style="font-size:13px; color:#555; margin-bottom:6px;">
+                QR Color
+            </p>
+            <input
+                type="color"
+                name="qr_color"
+                value="#000000"
+                style="width:100%; height:45px; border-radius:8px;
+                       border:2px solid #e0e0e0; cursor:pointer;"
+            >
+        </div>
+        <div style="flex:1">
+            <p style="font-size:13px; color:#555; margin-bottom:6px;">
+                Background Color
+            </p>
+            <input
+                type="color"
+                name="bg_color"
+                value="#ffffff"
+                style="width:100%; height:45px; border-radius:8px;
+                       border:2px solid #e0e0e0; cursor:pointer;"
+            >
+        </div>
+    </div>
+
+    <!-- Logo upload -->
+    <div style="margin-top:15px;">
+        <p style="font-size:13px; color:#555; margin-bottom:6px;">
+            🖼️ Logo in Center (Optional)
+        </p>
+        <div class="upload-area" style="padding:20px;">
+            <input type="file" name="logo_file" accept="image/*">
+            <p>Upload logo for QR center</p>
+        </div>
+    </div>
+
+    <!-- Background image upload -->
+    <div style="margin-top:15px;">
+        <p style="font-size:13px; color:#555; margin-bottom:6px;">
+            🖼️ Background Image (Optional)
+        </p>
+        <div class="upload-area" style="padding:20px;">
+            <input type="file" name="bg_file" accept="image/*">
+            <p>Upload background image for QR code</p>
+        </div>
+    </div>
+
+    <button type="submit" class="submit-btn">
+        📱 Generate QR Code
+    </button>
+
 </form>
 
 {% if error %}
@@ -18,9 +78,19 @@
 {% if message == 'success' %}
 <div class="result-section">
     <p>✅ QR Code is ready!</p>
-    <img src="/static/qrcode.png" style="width:200px;height:200px;margin-bottom:15px">
     <br>
-    <a href="/download/qrcode.png" class="download-btn">⬇️ Download QR Code</a>
+    <img
+        src="/static/qrcode.png"
+        style="width:280px; height:280px;
+               margin-bottom:15px;
+               border-radius:12px;
+               box-shadow: 0 5px 20px rgba(0,0,0,0.15);"
+    >
+    <br>
+    <a href="/download/qrcode.png" class="download-btn">
+        ⬇️ Download QR Code
+    </a>
 </div>
 {% endif %}
+
 {% endblock %}

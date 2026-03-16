@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Shinwari Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f4ff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .header { text-align: center; margin-bottom: 50px; }
+        .brand {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        h1 { font-size: 28px; color: #1a1a2e; margin-bottom: 10px; }
+        p.sub { color: #888; font-size: 15px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+        .plan-card {
+            background: white;
+            border-radius: 24px;
+            padding: 35px 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+        .plan-card.popular {
+            border-color: #4CAF50;
+        }
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            color: white;
+            padding: 5px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .plan-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+        .plan-price {
+            font-size: 42px;
+            font-weight: 800;
+            color: #4CAF50;
+            margin: 15px 0;
+        }
+        .plan-price span {
+            font-size: 16px;
+            color: #888;
+            font-weight: 400;
+        }
+        .plan-desc {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+        .features { list-style: none; margin-bottom: 30px; }
+        .features li {
+            padding: 8px 0;
+            font-size: 13px;
+            color: #555;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .features li:last-child { border: none; }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-free {
+            background: #f0f4ff;
+            color: #555;
+        }
+        .btn-paid {
+            background: linear-gradient(135deg, #4CAF50, #2e7d32);
+            color: white;
+        }
+        .btn-pro {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: #888;
+            text-decoration: none;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="brand">Shinwari Tools</div>
+        <h1>Simple & Transparent Pricing</h1>
+        <p class="sub">Choose the plan that works for you</p>
+    </div>
+
+    <div class="grid">
+
+        <!-- Free Plan -->
+        <div class="plan-card">
+            <div class="plan-name">Free</div>
+            <div class="plan-price">$0 <span>/forever</span></div>
+            <div class="plan-desc">Perfect for casual use</div>
+            <ul class="features">
+                <li>✅ 2000 words/day TTS</li>
+                <li>✅ 20 PDF conversions/day</li>
+                <li>✅ 15 QR codes/day</li>
+                <li>✅ 1000 words/day translation</li>
+                <li>✅ 15 image conversions/day</li>
+                <li>✅ All 9 tools included</li>
+                <li>❌ No priority support</li>
+            </ul>
+            <a href="/register" class="btn btn-free">Get Started Free →</a>
+        </div>
+
+        <!-- Basic Plan -->
+        <div class="plan-card popular">
+            <div class="popular-badge">⭐ Most Popular</div>
+            <div class="plan-name">Basic</div>
+            <div class="plan-price">$5 <span>/month</span></div>
+            <div class="plan-desc">For regular users</div>
+            <ul class="features">
+                <li>✅ 10,000 words/day TTS</li>
+                <li>✅ 100 PDF conversions/day</li>
+                <li>✅ 100 QR codes/day</li>
+                <li>✅ 5000 words/day translation</li>
+                <li>✅ 100 image conversions/day</li>
+                <li>✅ All 9 tools included</li>
+                <li>✅ Priority support</li>
+            </ul>
+            <a href="#" class="btn btn-paid">Coming Soon</a>
+        </div>
+
+        <!-- Pro Plan -->
+        <div class="plan-card">
+            <div class="plan-name">Pro</div>
+            <div class="plan-price">$15 <span>/month</span></div>
+            <div class="plan-desc">For power users & teams</div>
+            <ul class="features">
+                <li>✅ Unlimited TTS</li>
+                <li>✅ Unlimited PDF conversions</li>
+                <li>✅ Unlimited QR codes</li>
+                <li>✅ Unlimited translation</li>
+                <li>✅ Unlimited image conversions</li>
+                <li>✅ All 9 tools included</li>
+                <li>✅ Priority support</li>
+            </ul>
+            <a href="#" class="btn btn-pro">Coming Soon</a>
+        </div>
+
+    </div>
+
+    <a href="/" class="back-btn">← Back to Home</a>
+
+</body>
+</html>

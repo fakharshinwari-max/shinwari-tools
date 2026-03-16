@@ -4,38 +4,202 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shinwari Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            font-family: 'Poppins', sans-serif;
+            background: #f0f4ff;
             min-height: 100vh;
-            padding: 30px 20px;
         }
+
+        /* Animated background */
+        .bg-circles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-circles span {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 8s infinite;
+            opacity: 0.15;
+        }
+
+        .bg-circles span:nth-child(1) {
+            width: 400px; height: 400px;
+            background: #4CAF50;
+            top: -100px; left: -100px;
+            animation-delay: 0s;
+        }
+        .bg-circles span:nth-child(2) {
+            width: 300px; height: 300px;
+            background: #2196F3;
+            top: 50%; right: -80px;
+            animation-delay: 2s;
+        }
+        .bg-circles span:nth-child(3) {
+            width: 200px; height: 200px;
+            background: #FF9800;
+            bottom: 50px; left: 30%;
+            animation-delay: 4s;
+        }
+        .bg-circles span:nth-child(4) {
+            width: 150px; height: 150px;
+            background: #E91E63;
+            top: 40%; left: 20%;
+            animation-delay: 1s;
+        }
+        .bg-circles span:nth-child(5) {
+            width: 250px; height: 250px;
+            background: #9C27B0;
+            bottom: -50px; right: 20%;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+
+        /* Main content */
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            padding: 40px 20px;
+        }
+
+        /* Header */
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
+
         .brand {
-            font-size: 48px;
-            font-weight: bold;
-            color: #4CAF50;
-            letter-spacing: 5px;
+            font-size: 52px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(76,175,80,0.5);
+            margin-bottom: 10px;
         }
+
         .tagline {
-            color: #aaa;
+            color: #666;
             font-size: 16px;
-            margin-top: 8px;
+            font-weight: 300;
+            margin-bottom: 20px;
         }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 13px;
+            color: #555;
+            font-weight: 600;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+
+        .stat span {
+            color: #4CAF50;
+            font-weight: 700;
+        }
+
+        /* Search bar */
+        .search-box {
+            max-width: 500px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            background: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: border 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: #4CAF50;
+        }
+
+        .search-box .search-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+        }
+
+        /* Category tabs */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .cat-btn {
+            padding: 8px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            background: white;
+            font-size: 13px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: #4CAF50;
+            border-color: #4CAF50;
+            color: white;
+        }
+
+        /* Grid */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
         }
+
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+
+        /* Cards */
         .card {
             background: white;
             border-radius: 20px;
@@ -45,81 +209,283 @@
             color: #1a1a2e;
             transition: all 0.3s;
             border: 2px solid transparent;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            position: relative;
+            overflow: hidden;
         }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
         .card:hover {
             border-color: #4CAF50;
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(76,175,80,0.2);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(76,175,80,0.15);
         }
-        .card .icon { font-size: 50px; margin-bottom: 15px; }
-        .card h2 { font-size: 17px; margin-bottom: 8px; }
-        .card p { font-size: 12px; color: #888; }
+
+        @media (max-width: 480px) {
+            .card { padding: 18px 12px; border-radius: 14px; }
+            .card:hover { transform: translateY(-3px); }
+        }
+
+        .card .icon-wrap {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 35px;
+        }
+
+        @media (max-width: 480px) {
+            .card .icon-wrap {
+                width: 55px;
+                height: 55px;
+                font-size: 28px;
+                border-radius: 14px;
+            }
+        }
+
+        .card h2 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #1a1a2e;
+        }
+
+        .card p {
+            font-size: 11px;
+            color: #999;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 480px) {
+            .card h2 { font-size: 13px; }
+            .card p { font-size: 10px; }
+        }
+
+        .card .badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #4CAF50;
+            color: white;
+            font-size: 9px;
+            padding: 3px 8px;
+            border-radius: 50px;
+            font-weight: 700;
+        }
+
+        /* Icon backgrounds */
+        .icon-green { background: #e8f5e9; }
+        .icon-blue { background: #e3f2fd; }
+        .icon-orange { background: #fff3e0; }
+        .icon-purple { background: #f3e5f5; }
+        .icon-red { background: #fce4ec; }
+        .icon-teal { background: #e0f2f1; }
+        .icon-yellow { background: #fffde7; }
+        .icon-pink { background: #fce4ec; }
+        .icon-indigo { background: #e8eaf6; }
+
+        /* Footer */
         .footer {
             text-align: center;
-            color: #555;
-            margin-top: 40px;
+            color: #aaa;
+            margin-top: 50px;
             font-size: 13px;
+            padding-bottom: 20px;
+        }
+
+        .footer a {
+            color: #4CAF50;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="brand">Shinwari Tools</div>
-        <p class="tagline">Your all-in-one online toolkit</p>
+    <!-- Animated background -->
+    <div class="bg-circles">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
     </div>
 
-    <div class="grid">
-        <a href="/urdu-tts" class="card">
-            <div class="icon">🎙️</div>
-            <h2>Text to Speech</h2>
-            <p>Urdu, English, Arabic, Hindi</p>
-        </a>
-        <a href="/pdf-to-text" class="card">
-            <div class="icon">📄</div>
-            <h2>PDF to Text</h2>
-            <p>Extract text from PDF files</p>
-        </a>
-        <a href="/text-to-pdf" class="card">
-            <div class="icon">📝</div>
-            <h2>Text to PDF</h2>
-            <p>Convert text to PDF document</p>
-        </a>
-        <a href="/image-to-text" class="card">
-            <div class="icon">🖼️</div>
-            <h2>Image to Text</h2>
-            <p>Extract text from images (OCR)</p>
-        </a>
-        <a href="/word-to-pdf" class="card">
-            <div class="icon">📃</div>
-            <h2>Word to PDF</h2>
-            <p>Convert .docx files to PDF</p>
-        </a>
-        <a href="/pdf-to-word" class="card">
-            <div class="icon">📄</div>
-            <h2>PDF to Word</h2>
-            <p>Convert PDF to editable Word document</p>
-        </a>
-        <a href="/translator" class="card">
-            <div class="icon">🌍</div>
-            <h2>Translator</h2>
-            <p>Urdu ↔ English translation</p>
-        </a>
-        <a href="/qr-generator" class="card">
-            <div class="icon">📱</div>
-            <h2>QR Generator</h2>
-            <p>Create QR codes instantly</p>
-        </a>
-        <a href="/image-converter" class="card">
-            <div class="icon">🖼️</div>
-            <h2>Image Converter</h2>
-            <p>Convert JPG, PNG, WEBP</p>
-        </a>
+    <div class="wrapper">
+
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">Shinwari Tools</div>
+            <p class="tagline">Your all-in-one online toolkit — fast, free & easy</p>
+	    <div style="display:flex; justify-content:center; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
+    {% if current_user.is_authenticated %}
+    <a href="/dashboard" style="background:white; color:#4CAF50; padding:8px 20px;
+       border-radius:50px; text-decoration:none; font-size:13px; font-weight:600;
+       box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+        👤 {{ current_user.name }}
+    </a>
+    <a href="/logout" style="background:white; color:#e53935; padding:8px 20px;
+       border-radius:50px; text-decoration:none; font-size:13px; font-weight:600;
+       box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+        Logout
+    </a>
+    {% else %}
+    <a href="/login" style="background:white; color:#555; padding:8px 20px;
+       border-radius:50px; text-decoration:none; font-size:13px; font-weight:600;
+       box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+        Login
+    </a>
+    <a href="/register" style="background:linear-gradient(135deg,#4CAF50,#2196F3);
+       color:white; padding:8px 20px; border-radius:50px; text-decoration:none;
+       font-size:13px; font-weight:600;">
+        Sign Up Free ✨
+    </a>
+    <a href="/pricing" style="background:white; color:#FF9800; padding:8px 20px;
+       border-radius:50px; text-decoration:none; font-size:13px; font-weight:600;
+       box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+        ⭐ Pricing
+    </a>
+    {% endif %}
+    </div>
+            <div class="stats">
+                <div class="stat">🛠️ <span>9</span> Tools</div>
+                <div class="stat">⚡ <span>100%</span> Free</div>
+                <div class="stat">📱 <span>Mobile</span> Friendly</div>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="search-box">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search tools..."
+                onkeyup="searchTools()"
+            >
+            <span class="search-icon">🔍</span>
+        </div>
+
+        <!-- Categories -->
+        <div class="categories">
+            <button class="cat-btn active" onclick="filterCat('all', this)">All Tools</button>
+            <button class="cat-btn" onclick="filterCat('pdf', this)">📄 PDF</button>
+            <button class="cat-btn" onclick="filterCat('convert', this)">🔄 Convert</button>
+            <button class="cat-btn" onclick="filterCat('generate', this)">✨ Generate</button>
+        </div>
+
+        <!-- Tools Grid -->
+        <div class="grid" id="toolsGrid">
+
+            <a href="/urdu-tts" class="card" data-cat="generate" data-name="text to speech urdu english arabic hindi">
+                <div class="badge">Popular</div>
+                <div class="icon-wrap icon-green">🎙️</div>
+                <h2>Text to Speech</h2>
+                <p>Urdu, English, Arabic & Hindi</p>
+            </a>
+
+            <a href="/pdf-to-text" class="card" data-cat="pdf" data-name="pdf to text extract">
+                <div class="icon-wrap icon-blue">📄</div>
+                <h2>PDF to Text</h2>
+                <p>Extract text from any PDF file</p>
+            </a>
+
+            <a href="/text-to-pdf" class="card" data-cat="pdf" data-name="text to pdf convert">
+                <div class="icon-wrap icon-orange">📝</div>
+                <h2>Text to PDF</h2>
+                <p>Convert text into PDF document</p>
+            </a>
+
+            <a href="/image-to-text" class="card" data-cat="convert" data-name="image to text ocr">
+                <div class="icon-wrap icon-purple">🖼️</div>
+                <h2>Image to Text</h2>
+                <p>Extract text from images (OCR)</p>
+            </a>
+
+            <a href="/word-to-pdf" class="card" data-cat="pdf convert" data-name="word to pdf docx">
+                <div class="icon-wrap icon-red">📃</div>
+                <h2>Word to PDF</h2>
+                <p>Convert .docx files to PDF</p>
+            </a>
+
+            <a href="/pdf-to-word" class="card" data-cat="pdf convert" data-name="pdf to word docx">
+                <div class="icon-wrap icon-teal">📋</div>
+                <h2>PDF to Word</h2>
+                <p>Convert PDF to editable Word</p>
+            </a>
+
+            <a href="/translator" class="card" data-cat="generate" data-name="translator urdu english arabic hindi">
+                <div class="icon-wrap icon-yellow">🌍</div>
+                <h2>Translator</h2>
+                <p>Translate between languages</p>
+            </a>
+
+            <a href="/qr-generator" class="card" data-cat="generate" data-name="qr code generator">
+                <div class="badge">New</div>
+                <div class="icon-wrap icon-pink">📱</div>
+                <h2>QR Generator</h2>
+                <p>Create beautiful QR codes</p>
+            </a>
+
+            <a href="/image-converter" class="card" data-cat="convert" data-name="image converter jpg png webp">
+                <div class="icon-wrap icon-indigo">🔄</div>
+                <h2>Image Converter</h2>
+                <p>Convert JPG, PNG, WEBP & more</p>
+            </a>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            &copy; 2026 Shinwari Tools — Made with ❤️
+        </div>
+
     </div>
 
-    <div class="footer">
-        &copy; 2026 Shinwari Tools. All rights reserved.
-    </div>
+    <script>
+        // Search tools
+        function searchTools() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                card.style.display = name.includes(query) ? 'block' : 'none';
+            });
+        }
+
+        // Filter by category
+        function filterCat(cat, btn) {
+            // Update active button
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-cat');
+                if (cat === 'all' || cardCat.includes(cat)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>
