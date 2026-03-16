@@ -6,6 +6,7 @@
     <title>Shinwari Tools - {% block title %}{% endblock %}</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #1a1a2e, #16213e);
@@ -13,35 +14,67 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 15px;
         }
+
         .container {
             background: white;
             border-radius: 20px;
-            padding: 40px;
+            padding: 30px 25px;
             width: 100%;
             max-width: 700px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
+
+        /* Mobile: smaller padding */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+                border-radius: 15px;
+            }
+        }
+
         .brand {
             text-align: center;
-            font-size: 36px;
+            font-size: 32px;
             font-weight: bold;
             color: #4CAF50;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             text-transform: uppercase;
             margin-bottom: 5px;
         }
-        h1 { text-align: center; color: #1a1a2e; font-size: 24px; margin-bottom: 6px; }
-        p.subtitle { text-align: center; color: #888; margin-bottom: 25px; font-size: 13px; }
+
+        @media (max-width: 480px) {
+            .brand { font-size: 24px; letter-spacing: 2px; }
+        }
+
+        h1 {
+            text-align: center;
+            color: #1a1a2e;
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 18px; }
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
         .back-btn {
             display: inline-block;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: #4CAF50;
             text-decoration: none;
             font-size: 14px;
             font-weight: bold;
         }
+
         .submit-btn {
             width: 100%;
             padding: 14px;
@@ -49,46 +82,66 @@
             color: white;
             border: none;
             border-radius: 12px;
-            font-size: 17px;
+            font-size: 16px;
             cursor: pointer;
             margin-top: 15px;
             transition: transform 0.2s;
+            touch-action: manipulation;
         }
+
         .submit-btn:hover { transform: translateY(-2px); }
+        .submit-btn:active { transform: translateY(0); }
+
         textarea {
             width: 100%;
-            height: 250px;
+            height: 220px;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
-            padding: 15px;
-            font-size: 16px;
+            padding: 12px;
+            font-size: 15px;
+            font-family: 'Segoe UI', sans-serif;
             resize: vertical;
             outline: none;
             transition: border 0.3s;
         }
+
+        @media (max-width: 480px) {
+            textarea { height: 180px; font-size: 14px; }
+        }
+
         textarea:focus { border-color: #4CAF50; }
+
         .upload-area {
             border: 2px dashed #e0e0e0;
             border-radius: 12px;
-            padding: 40px 20px;
+            padding: 30px 15px;
             text-align: center;
             transition: border 0.3s;
             margin-bottom: 10px;
         }
+
         .upload-area:hover { border-color: #4CAF50; }
         .upload-area p { color: #888; margin-top: 8px; font-size: 13px; }
-        input[type="file"] { margin-top: 12px; font-size: 14px; }
+
+        input[type="file"] {
+            margin-top: 12px;
+            font-size: 14px;
+            max-width: 100%;
+        }
+
         .result-section {
-            margin-top: 25px;
+            margin-top: 20px;
             background: #f5f5f5;
             border-radius: 12px;
-            padding: 20px;
+            padding: 20px 15px;
             text-align: center;
         }
-        .result-section p { margin-bottom: 15px; color: #333; }
+
+        .result-section p { margin-bottom: 12px; color: #333; }
+
         .download-btn {
             display: inline-block;
-            padding: 12px 35px;
+            padding: 12px 25px;
             background: #1a1a2e;
             color: white;
             border-radius: 8px;
@@ -96,16 +149,20 @@
             font-size: 14px;
             transition: opacity 0.2s;
             margin: 5px;
+            touch-action: manipulation;
         }
+
         .download-btn:hover { opacity: 0.8; }
+
         .error-box {
             background: #ffe0e0;
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
             margin-top: 15px;
             color: red;
-            font-size: 14px;
+            font-size: 13px;
         }
+
         .loading {
             display: none;
             text-align: center;
@@ -113,44 +170,70 @@
             margin-top: 15px;
             font-size: 15px;
         }
-        .footer { text-align: center; margin-top: 25px; color: #aaa; font-size: 12px; }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #aaa;
+            font-size: 12px;
+        }
+
         .tabs {
             display: flex;
             background: #f0f0f0;
             border-radius: 12px;
-            padding: 5px;
-            margin-bottom: 20px;
+            padding: 4px;
+            margin-bottom: 15px;
         }
+
         .tabs button {
             flex: 1;
-            padding: 10px;
+            padding: 9px 5px;
             border: none;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 13px;
             cursor: pointer;
             background: transparent;
             color: #555;
             font-weight: bold;
             transition: all 0.3s;
+            touch-action: manipulation;
         }
+
         .tabs button.active {
             background: white;
             color: #1a1a2e;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
+
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+
         select {
             width: 100%;
-            padding: 12px;
+            padding: 11px;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
-            font-size: 15px;
+            font-size: 14px;
             outline: none;
             margin-top: 10px;
             cursor: pointer;
+            background: white;
         }
+
         select:focus { border-color: #4CAF50; }
+
+        audio {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        img.qr-image {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
