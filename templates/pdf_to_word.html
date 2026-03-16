@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}PDF to Word{% endblock %}
+{% block content %}
+<h1>📄 PDF to Word</h1>
+<p class="subtitle">Convert PDF files to editable Word documents</p>
+<a href="/" class="back-btn">← Back to Tools</a>
+
+<form method="POST" enctype="multipart/form-data">
+    <div class="upload-area">
+        <div style="font-size:48px">📄</div>
+        <p>Upload your PDF file</p>
+        <p style="color:#4CAF50; font-size:12px;">
+            Supports text, tables and images
+        </p>
+        <input type="file" name="pdf_file" accept=".pdf" required>
+    </div>
+    <button type="submit" class="submit-btn">
+        📝 Convert to Word
+    </button>
+</form>
+
+{% if error %}
+<div class="error-box">❌ {{ error }}</div>
+{% endif %}
+
+{% if message == 'success' %}
+<div class="result-section">
+    <p>✅ Word file is ready!</p>
+    <a href="/download/output.docx" class="download-btn">
+        ⬇️ Download Word File
+    </a>
+</div>
+{% endif %}
+{% endblock %}

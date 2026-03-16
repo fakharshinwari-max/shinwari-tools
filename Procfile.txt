@@ -1,0 +1,25 @@
+web: gunicorn app:app
+```
+
+---
+
+**Step 2 — Upload to GitHub:**
+- Go to **github.com** — sign up free
+- Click **New Repository**
+- Name it `shinwari-tools`
+- Upload all files from `ShinwariTools` folder
+
+---
+
+**Step 3 — Deploy on Render:**
+- Go to **render.com** — sign up free
+- Click **New Web Service**
+- Connect your GitHub account
+- Select `shinwari-tools` repository
+- Click **Deploy**
+
+---
+
+**Step 4 — Your site is live! 🎉**
+```
+https://shinwari-tools.onrender.com

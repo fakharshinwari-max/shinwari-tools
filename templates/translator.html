@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Translator{% endblock %}
+{% block content %}
+<h1>🌍 Translator</h1>
+<p class="subtitle">Translate between multiple languages</p>
+<a href="/" class="back-btn">← Back to Tools</a>
+
+<form method="POST">
+    <div style="display:flex;gap:10px;margin-bottom:10px">
+        <select name="source" style="flex:1">
+            <option value="ur">🇵🇰 Urdu</option>
+            <option value="en">🇬🇧 English</option>
+            <option value="ar">🇸🇦 Arabic</option>
+            <option value="hi">🇮🇳 Hindi</option>
+        </select>
+        <div style="display:flex;align-items:center;font-size:20px">➡️</div>
+        <select name="target" style="flex:1">
+            <option value="en">🇬🇧 English</option>
+            <option value="ur">🇵🇰 Urdu</option>
+            <option value="ar">🇸🇦 Arabic</option>
+            <option value="hi">🇮🇳 Hindi</option>
+        </select>
+    </div>
+    <textarea name="text" placeholder="Enter text to translate..."></textarea>
+    <button type="submit" class="submit-btn">🌍 Translate</button>
+</form>
+
+{% if error %}
+<div class="error-box">❌ {{ error }}</div>
+{% endif %}
+
+{% if message == 'success' %}
+<div class="result-section">
+    <p>✅ Translation:</p>
+    <textarea style="height:150px">{{ result }}</textarea>
+</div>
+{% endif %}
+{% endblock %}

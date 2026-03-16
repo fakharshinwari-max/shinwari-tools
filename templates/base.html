@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shinwari Tools - {% block title %}{% endblock %}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .brand {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #4CAF50;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        h1 { text-align: center; color: #1a1a2e; font-size: 24px; margin-bottom: 6px; }
+        p.subtitle { text-align: center; color: #888; margin-bottom: 25px; font-size: 13px; }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #4CAF50, #2e7d32);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+        .submit-btn:hover { transform: translateY(-2px); }
+        textarea {
+            width: 100%;
+            height: 250px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 16px;
+            resize: vertical;
+            outline: none;
+            transition: border 0.3s;
+        }
+        textarea:focus { border-color: #4CAF50; }
+        .upload-area {
+            border: 2px dashed #e0e0e0;
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            transition: border 0.3s;
+            margin-bottom: 10px;
+        }
+        .upload-area:hover { border-color: #4CAF50; }
+        .upload-area p { color: #888; margin-top: 8px; font-size: 13px; }
+        input[type="file"] { margin-top: 12px; font-size: 14px; }
+        .result-section {
+            margin-top: 25px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .result-section p { margin-bottom: 15px; color: #333; }
+        .download-btn {
+            display: inline-block;
+            padding: 12px 35px;
+            background: #1a1a2e;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: opacity 0.2s;
+            margin: 5px;
+        }
+        .download-btn:hover { opacity: 0.8; }
+        .error-box {
+            background: #ffe0e0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            color: red;
+            font-size: 14px;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            color: #4CAF50;
+            margin-top: 15px;
+            font-size: 15px;
+        }
+        .footer { text-align: center; margin-top: 25px; color: #aaa; font-size: 12px; }
+        .tabs {
+            display: flex;
+            background: #f0f0f0;
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+        .tabs button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            background: transparent;
+            color: #555;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .tabs button.active {
+            background: white;
+            color: #1a1a2e;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        select:focus { border-color: #4CAF50; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="brand">Shinwari Tools</div>
+        {% block content %}{% endblock %}
+        <div class="footer">&copy; 2026 Shinwari Tools. All rights reserved.</div>
+    </div>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

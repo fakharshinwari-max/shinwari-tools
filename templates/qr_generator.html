@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}QR Generator{% endblock %}
+{% block content %}
+<h1>📱 QR Code Generator</h1>
+<p class="subtitle">Create QR codes for any text or URL</p>
+<a href="/" class="back-btn">← Back to Tools</a>
+
+<form method="POST">
+    <textarea name="text" placeholder="Enter text or URL to generate QR code..."
+              style="height:150px"></textarea>
+    <button type="submit" class="submit-btn">📱 Generate QR Code</button>
+</form>
+
+{% if error %}
+<div class="error-box">❌ {{ error }}</div>
+{% endif %}
+
+{% if message == 'success' %}
+<div class="result-section">
+    <p>✅ QR Code is ready!</p>
+    <img src="/static/qrcode.png" style="width:200px;height:200px;margin-bottom:15px">
+    <br>
+    <a href="/download/qrcode.png" class="download-btn">⬇️ Download QR Code</a>
+</div>
+{% endif %}
+{% endblock %}

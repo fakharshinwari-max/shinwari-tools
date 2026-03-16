@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Image to Text{% endblock %}
+{% block content %}
+<h1>🖼️ Image to Text</h1>
+<p class="subtitle">Extract text from images using OCR</p>
+<a href="/" class="back-btn">← Back to Tools</a>
+
+<form method="POST" enctype="multipart/form-data">
+    <div class="upload-area">
+        <div style="font-size:48px">🖼️</div>
+        <p>Upload JPG, PNG or any image</p>
+        <input type="file" name="image_file" accept="image/*" required>
+    </div>
+    <button type="submit" class="submit-btn">📝 Extract Text</button>
+</form>
+
+{% if error %}
+<div class="error-box">❌ {{ error }}</div>
+{% endif %}
+
+{% if message == 'success' %}
+<div class="result-section">
+    <p>✅ Text extracted!</p>
+    <textarea style="height:200px;margin-bottom:15px">{{ text }}</textarea>
+    <a href="/download/ocr.txt" class="download-btn">⬇️ Download TXT</a>
+</div>
+{% endif %}
+{% endblock %}

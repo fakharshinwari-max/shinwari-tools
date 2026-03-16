@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}PDF to Text{% endblock %}
+{% block content %}
+<h1>📄 PDF to Text</h1>
+<p class="subtitle">Extract text from any PDF file</p>
+<a href="/" class="back-btn">← Back to Tools</a>
+
+<form method="POST" enctype="multipart/form-data">
+    <div class="upload-area">
+        <div style="font-size:48px">📄</div>
+        <p>Upload your PDF file</p>
+        <input type="file" name="pdf_file" accept=".pdf" required>
+    </div>
+    <button type="submit" class="submit-btn">📝 Extract Text</button>
+</form>
+
+{% if error %}
+<div class="error-box">❌ {{ error }}</div>
+{% endif %}
+
+{% if message == 'success' %}
+<div class="result-section">
+    <p>✅ Text extracted!</p>
+    <textarea style="height:200px;margin-bottom:15px">{{ text }}</textarea>
+    <a href="/download/extracted.txt" class="download-btn">⬇️ Download TXT</a>
+</div>
+{% endif %}
+{% endblock %}

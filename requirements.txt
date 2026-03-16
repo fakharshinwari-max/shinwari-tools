@@ -1,0 +1,10 @@
+flask
+gtts
+reportlab
+pymupdf
+pillow
+pytesseract
+python-docx
+qrcode
+deep-translator
+gunicorn

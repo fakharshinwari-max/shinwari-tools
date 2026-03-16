@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Text to PDF{% endblock %}
+{% block content %}
+<h1>📝 Text to PDF</h1>
+<p class="subtitle">Convert text into a PDF document</p>
+<a href="/" class="back-btn">← Back to Tools</a>
+
+<div class="tabs">
+    <button class="active" id="btn-type" onclick="switchTab('type')">✏️ Type Text</button>
+    <button id="btn-upload" onclick="switchTab('upload')">📁 Upload .txt</button>
+</div>
+
+<div id="tab-type" class="tab-content active">
+    <div id="ajaxResult"></div>
+    <textarea id="textInput" placeholder="Type or paste your text here..."></textarea>
+    <button class="submit-btn" onclick="convertPDF()">📄 Convert to PDF</button>
+    <div class="loading" id="loading">⏳ Converting...</div>
+</div>
+
+<div id="tab-upload" class="tab-content">
+    <form method="POST" enctype="multipart/form-data">
+        <div class="upload-area">
+            <div style="font-size:48px">📁</div>
+            <p>Upload .txt file (any size)</p>
+            <input type="file" name="txt_file" accept=".txt" required>
+        </div>
+        <button type="submit" class="submit-btn">📄 Convert to PDF</button>
+    </form>
+</div>
+
+{% if error %}
+<div class="error-box">❌ {{ error }}</div>
+{% endif %}
+
+{% if message == 'success' %}
+<div class="result-section">
+    <p>✅ PDF is ready!</p>
+    <a href="/download/output.pdf" class="download-btn">⬇️ Download PDF</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+function switchTab(tab) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('btn-' + tab).classList.add('active');
+}
+function convertPDF() {
+    const text = document.getElementById('textInput').value;
+    if (!text.trim()) {
+        document.getElementById('ajaxResult').innerHTML =
+            '<div class="error-box">❌ Please enter text!</div>';
+        return;
+    }
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('ajaxResult').innerHTML = '';
+    const blob = new Blob([text], {type: 'text/plain'});
+    const formData = new FormData();
+    formData.append('txt_file', blob, 'text.txt');
+    fetch('/text-to-pdf', {method: 'POST', body: formData})
+    .then(r => {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('ajaxResult').innerHTML = `
+            <div class="result-section">
+                <p>✅ PDF is ready!</p>
+                <a href="/download/output.pdf" class="download-btn">⬇️ Download PDF</a>
+            </div>`;
+    })
+    .catch(e => {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('ajaxResult').innerHTML =
+            '<div class="error-box">❌ ' + e + '</div>';
+    });
+}
+</script>
+{% endblock %}

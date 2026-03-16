@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shinwari Tools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .brand {
+            font-size: 48px;
+            font-weight: bold;
+            color: #4CAF50;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(76,175,80,0.5);
+        }
+        .tagline {
+            color: #aaa;
+            font-size: 16px;
+            margin-top: 8px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #1a1a2e;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        .card:hover {
+            border-color: #4CAF50;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(76,175,80,0.2);
+        }
+        .card .icon { font-size: 50px; margin-bottom: 15px; }
+        .card h2 { font-size: 17px; margin-bottom: 8px; }
+        .card p { font-size: 12px; color: #888; }
+        .footer {
+            text-align: center;
+            color: #555;
+            margin-top: 40px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="brand">Shinwari Tools</div>
+        <p class="tagline">Your all-in-one online toolkit</p>
+    </div>
+
+    <div class="grid">
+        <a href="/urdu-tts" class="card">
+            <div class="icon">🎙️</div>
+            <h2>Text to Speech</h2>
+            <p>Urdu, English, Arabic, Hindi</p>
+        </a>
+        <a href="/pdf-to-text" class="card">
+            <div class="icon">📄</div>
+            <h2>PDF to Text</h2>
+            <p>Extract text from PDF files</p>
+        </a>
+        <a href="/text-to-pdf" class="card">
+            <div class="icon">📝</div>
+            <h2>Text to PDF</h2>
+            <p>Convert text to PDF document</p>
+        </a>
+        <a href="/image-to-text" class="card">
+            <div class="icon">🖼️</div>
+            <h2>Image to Text</h2>
+            <p>Extract text from images (OCR)</p>
+        </a>
+        <a href="/word-to-pdf" class="card">
+            <div class="icon">📃</div>
+            <h2>Word to PDF</h2>
+            <p>Convert .docx files to PDF</p>
+        </a>
+        <a href="/pdf-to-word" class="card">
+            <div class="icon">📄</div>
+            <h2>PDF to Word</h2>
+            <p>Convert PDF to editable Word document</p>
+        </a>
+        <a href="/translator" class="card">
+            <div class="icon">🌍</div>
+            <h2>Translator</h2>
+            <p>Urdu ↔ English translation</p>
+        </a>
+        <a href="/qr-generator" class="card">
+            <div class="icon">📱</div>
+            <h2>QR Generator</h2>
+            <p>Create QR codes instantly</p>
+        </a>
+        <a href="/image-converter" class="card">
+            <div class="icon">🖼️</div>
+            <h2>Image Converter</h2>
+            <p>Convert JPG, PNG, WEBP</p>
+        </a>
+    </div>
+
+    <div class="footer">
+        &copy; 2026 Shinwari Tools. All rights reserved.
+    </div>
+
+</body>
+</html>
