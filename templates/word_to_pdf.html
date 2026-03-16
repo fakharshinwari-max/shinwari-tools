@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Word to PDF{% endblock %}
+{% block content %}
+<h1>📃 Word to PDF</h1>
+<p class="subtitle">Convert .docx files to PDF</p>
+<a href="/" class="back-btn">← Back to Tools</a>
+
+<form method="POST" enctype="multipart/form-data">
+    <div class="upload-area">
+        <div style="font-size:48px">📃</div>
+        <p>Upload your .docx Word file</p>
+        <input type="file" name="word_file" accept=".docx" required>
+    </div>
+    <button type="submit" class="submit-btn">📄 Convert to PDF</button>
+</form>
+
+{% if error %}
+<div class="error-box">❌ {{ error }}</div>
+{% endif %}
+
+{% if message == 'success' %}
+<div class="result-section">
+    <p>✅ PDF is ready!</p>
+    <a href="/download/word_output.pdf" class="download-btn">⬇️ Download PDF</a>
+</div>
+{% endif %}
+{% endblock %}
