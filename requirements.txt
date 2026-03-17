@@ -1,10 +1,13 @@
-flask
-gtts
-reportlab
-pymupdf
-pillow
-pytesseract
-python-docx
-qrcode
-deep-translator
-gunicorn
+Users Table:
+- id
+- email
+- password
+- plan (free/basic/pro)
+- daily_usage
+- last_reset_date
+
+Usage Table:
+- user_id
+- tool_name
+- count
+- date

@@ -334,36 +334,6 @@
         <div class="header">
             <div class="brand">Shinwari Tools</div>
             <p class="tagline">Your all-in-one online toolkit — fast, free & easy</p>
-	    <div style="display:flex; justify-content:center; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
-    {% if current_user.is_authenticated %}
-    <a href="/dashboard" style="background:white; color:#4CAF50; padding:8px 20px;
-       border-radius:50px; text-decoration:none; font-size:13px; font-weight:600;
-       box-shadow:0 2px 10px rgba(0,0,0,0.1);">
-        👤 {{ current_user.name }}
-    </a>
-    <a href="/logout" style="background:white; color:#e53935; padding:8px 20px;
-       border-radius:50px; text-decoration:none; font-size:13px; font-weight:600;
-       box-shadow:0 2px 10px rgba(0,0,0,0.1);">
-        Logout
-    </a>
-    {% else %}
-    <a href="/login" style="background:white; color:#555; padding:8px 20px;
-       border-radius:50px; text-decoration:none; font-size:13px; font-weight:600;
-       box-shadow:0 2px 10px rgba(0,0,0,0.1);">
-        Login
-    </a>
-    <a href="/register" style="background:linear-gradient(135deg,#4CAF50,#2196F3);
-       color:white; padding:8px 20px; border-radius:50px; text-decoration:none;
-       font-size:13px; font-weight:600;">
-        Sign Up Free ✨
-    </a>
-    <a href="/pricing" style="background:white; color:#FF9800; padding:8px 20px;
-       border-radius:50px; text-decoration:none; font-size:13px; font-weight:600;
-       box-shadow:0 2px 10px rgba(0,0,0,0.1);">
-        ⭐ Pricing
-    </a>
-    {% endif %}
-    </div>
             <div class="stats">
                 <div class="stat">🛠️ <span>9</span> Tools</div>
                 <div class="stat">⚡ <span>100%</span> Free</div>
