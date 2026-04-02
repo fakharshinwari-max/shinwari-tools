@@ -1,0 +1,57 @@
+{
+  "john.doe@example.com": {
+    "raw_text": "\nJohn Doe\njohn.doe@example.com\n+1-234-567-8900\n\nEXPERIENCE\nSenior Software Engineer - Tech Corp (2020-Present)\n- Developed Python applications using Django and Flask\n- Built REST APIs and microservices\n- Worked with AWS, Docker, and Kubernetes\n\nSoftware Developer - StartupXYZ (2018-2020)\n- Created React frontends\n- Implemented CI/CD pipelines\n- Used PostgreSQL and MongoDB\n\nEDUCATION\nBachelor of Science in Computer Science\nUniversity of Technology (2014-2018)\n\nSKILLS\nPython, JavaScript, React, Django, Flask, AWS, Docker, Kubernetes, \nPostgreSQL, MongoDB, Git, CI/CD, REST API, Microservices\n",
+    "email": "john.doe@example.com",
+    "phone": "234-567-8900",
+    "name": "",
+    "skills": [
+      "CI/CD",
+      "Microservices",
+      "Docker",
+      "Django",
+      "Kubernetes",
+      "React",
+      "Python",
+      "MongoDB",
+      "AWS",
+      "REST API",
+      "Flask",
+      "SQL",
+      "Java",
+      "Go",
+      "JavaScript",
+      "Git",
+      "PostgreSQL"
+    ],
+    "experience": [
+      {
+        "company": "EXPERIENCE\nSenior Software Engineer",
+        "position": "Tech Corp",
+        "start_year": "2020",
+        "end_year": "Present"
+      },
+      {
+        "company": "and Kubernetes\n\nSoftware Developer",
+        "position": "StartupXYZ",
+        "start_year": "2018",
+        "end_year": "2020"
+      },
+      {
+        "company": "CD pipelines",
+        "position": "Used PostgreSQL and MongoDB\n\nEDUCATION\nBachelor of Science in Computer Science\nUniversity of Technology",
+        "start_year": "2014",
+        "end_year": "2018"
+      }
+    ],
+    "education": [
+      {
+        "degree": "Bachelor of Science in Computer Science",
+        "institution": ""
+      }
+    ],
+    "certifications": [],
+    "id": "john.doe@example.com",
+    "processed_at": "2026-04-02T13:23:59.850496",
+    "file_path": "uploads/test_resume.txt"
+  }
+}

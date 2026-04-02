@@ -7,6 +7,10 @@ app.config['MAX_CONTENT_LENGTH'] = None
 UPLOAD_FOLDER = 'uploads'
 STATIC_FOLDER = 'static'
 
+# Import and register Resume Screener Blueprint
+from resume_agent.routes import resume_bp
+app.register_blueprint(resume_bp)
+
 # ============================================================
 # HOME
 # ============================================================

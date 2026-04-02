@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Candidates</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 200px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .slider-container {
+            margin: 20px 0;
+        }
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e9ecef;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-size: 1.1em;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .results {
+            margin-top: 30px;
+        }
+        .result-card {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.2s;
+        }
+        .result-card:hover {
+            transform: translateX(5px);
+        }
+        .rank-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .score-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .candidate-email {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin: 10px 0;
+        }
+        .candidate-skills {
+            margin-top: 10px;
+        }
+        .skill-tag {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            margin-right: 8px;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+        .candidate-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+        .detail-item {
+            margin: 8px 0;
+            color: #666;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .export-form {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .export-btn {
+            padding: 10px 25px;
+            margin-right: 10px;
+            background: #28a745;
+        }
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Screen Candidates</h1>
+        <p class="subtitle">Match resumes against your job description</p>
+
+        {% if error %}
+        <div class="message error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="job_description">Job Description:</label>
+                <textarea 
+                    id="job_description" 
+                    name="job_description" 
+                    placeholder="Paste the job description here... Include required skills, experience level, and responsibilities for best matching results."
+                >{{ job_description }}</textarea>
+            </div>
+
+            <div class="slider-container">
+                <label for="min_score">Minimum Match Score: <span id="score-value">{{ min_score }}</span>%</label>
+                <input 
+                    type="range" 
+                    id="min_score" 
+                    name="min_score" 
+                    min="0" 
+                    max="100" 
+                    value="{{ min_score }}"
+                    oninput="document.getElementById('score-value').textContent = this.value"
+                >
+            </div>
+
+            <div style="text-align: center;">
+                <button type="submit" class="btn">🚀 Screen Candidates</button>
+            </div>
+        </form>
+
+        {% if results %}
+        <div class="results">
+            <h2 style="color: #667eea; margin: 30px 0 20px;">
+                📊 Results ({{ results|length }} candidates)
+            </h2>
+
+            {% for candidate in results %}
+            <div class="result-card">
+                <div>
+                    <span class="rank-badge">#{{ candidate.rank }}</span>
+                    <span class="score-badge">{{ candidate.match_score }}% Match</span>
+                </div>
+                
+                <div class="candidate-email">
+                    {% if candidate.email %}
+                    📧 {{ candidate.email }}
+                    {% else %}
+                    Candidate #{{ loop.index }}
+                    {% endif %}
+                </div>
+
+                {% if candidate.skills %}
+                <div class="candidate-skills">
+                    <strong>Skills:</strong>
+                    {% for skill in candidate.skills[:15] %}
+                    <span class="skill-tag">{{ skill }}</span>
+                    {% endfor %}
+                    {% if candidate.skills|length > 15 %}
+                    <span class="skill-tag">+{{ candidate.skills|length - 15 }} more</span>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <div class="candidate-details">
+                    {% if candidate.experience %}
+                    <div class="detail-item">
+                        <strong>Experience:</strong> {{ candidate.experience|length }} positions listed
+                    </div>
+                    {% endif %}
+                    
+                    {% if candidate.education %}
+                    <div class="detail-item">
+                        <strong>Education:</strong> {{ candidate.education|length }} degrees listed
+                    </div>
+                    {% endif %}
+
+                    {% if candidate.certifications %}
+                    <div class="detail-item">
+                        <strong>Certifications:</strong> {{ candidate.certifications|join(', ') }}
+                    </div>
+                    {% endif %}
+
+                    <a href="{{ url_for('resume.match_resume', resume_id=candidate.id) }}" 
+                       style="color: #667eea; text-decoration: none; font-weight: bold;">
+                        View Full Profile →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="export-form">
+                <h3 style="margin-bottom: 15px; color: #667eea;">📥 Export Results</h3>
+                <form method="POST" action="{{ url_for('resume.export_results') }}">
+                    <input type="hidden" name="job_description" value="{{ job_description }}">
+                    <button type="submit" name="format" value="json" class="btn export-btn">Export as JSON</button>
+                    <button type="submit" name="format" value="csv" class="btn export-btn">Export as CSV</button>
+                </form>
+            </div>
+        </div>
+        {% elif request.method == 'POST' %}
+        <div class="no-results">
+            <p style="font-size: 1.2em;">😕 No candidates matched your criteria</p>
+            <p>Try lowering the minimum score or uploading more resumes</p>
+        </div>
+        {% endif %}
+
+        <a href="{{ url_for('resume.dashboard') }}" class="back-link">← Back to Dashboard</a>
+    </div>
+</body>
+</html>
