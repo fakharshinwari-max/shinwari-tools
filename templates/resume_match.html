@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Resume</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .resume-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 150px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-size: 1.1em;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .match-result {
+            margin-top: 30px;
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+        }
+        .score-display {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            color: white;
+            margin-bottom: 25px;
+        }
+        .score-number {
+            font-size: 4em;
+            font-weight: bold;
+        }
+        .score-label {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .skill-analysis {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .skill-column {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .skill-column h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .skill-item {
+            background: #f8f9fa;
+            padding: 8px 15px;
+            margin: 5px 0;
+            border-radius: 20px;
+            display: inline-block;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        .matched {
+            background: #d4edda;
+            color: #155724;
+        }
+        .missing {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .info-section {
+            margin-top: 20px;
+        }
+        .info-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+        .info-item h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .skill-analysis {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Match Resume to Job</h1>
+        <p class="subtitle">Analyze how well this candidate fits your position</p>
+
+        <div class="resume-header">
+            <h3 style="color: #667eea; margin-bottom: 10px;">
+                {% if resume.email %}
+                📧 {{ resume.email }}
+                {% else %}
+                Resume Details
+                {% endif %}
+            </h3>
+            
+            {% if resume.skills %}
+            <div style="margin-top: 10px;">
+                <strong>Skills:</strong>
+                {% for skill in resume.skills[:20] %}
+                <span style="background: #667eea; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.85em; margin-right: 8px; margin-bottom: 5px; display: inline-block;">{{ skill }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        {% if error %}
+        <div class="message error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="job_description">Job Description:</label>
+                <textarea 
+                    id="job_description" 
+                    name="job_description" 
+                    placeholder="Paste the job description here..."
+                >{{ job_description }}</textarea>
+            </div>
+
+            <div style="text-align: center;">
+                <button type="submit" class="btn">🚀 Analyze Match</button>
+            </div>
+        </form>
+
+        {% if match_result %}
+        <div class="match-result">
+            <div class="score-display">
+                <div class="score-number">{{ match_result.match_score }}%</div>
+                <div class="score-label">Overall Match Score</div>
+            </div>
+
+            {% if match_result.skill_analysis %}
+            <h3 style="color: #667eea; margin-bottom: 15px;">📊 Skill Analysis</h3>
+            <p style="text-align: center; margin-bottom: 20px;">
+                Coverage: <strong>{{ match_result.skill_analysis.coverage_percentage }}%</strong> 
+                ({{ match_result.skill_analysis.total_matched }}/{{ match_result.skill_analysis.total_required }} required skills matched)
+            </p>
+
+            <div class="skill-analysis">
+                <div class="skill-column">
+                    <h4>✅ Matched Skills</h4>
+                    {% for skill in match_result.skill_analysis.matched_skills %}
+                    <span class="skill-item matched">{{ skill }}</span>
+                    {% endfor %}
+                    {% if not match_result.skill_analysis.matched_skills %}
+                    <p style="color: #666;">No matching skills found</p>
+                    {% endif %}
+                </div>
+
+                <div class="skill-column">
+                    <h4>❌ Missing Skills</h4>
+                    {% for skill in match_result.skill_analysis.missing_skills %}
+                    <span class="skill-item missing">{{ skill }}</span>
+                    {% endfor %}
+                    {% if not match_result.skill_analysis.missing_skills %}
+                    <p style="color: #666;">All required skills matched!</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="info-section">
+                <h3 style="color: #667eea; margin: 25px 0 15px;">📋 Candidate Information</h3>
+                
+                {% if match_result.candidate_info.email %}
+                <div class="info-item">
+                    <h4>📧 Contact</h4>
+                    <p>{{ match_result.candidate_info.email }}</p>
+                </div>
+                {% endif %}
+
+                {% if match_result.candidate_info.skills %}
+                <div class="info-item">
+                    <h4>🛠️ All Skills</h4>
+                    <div>
+                        {% for skill in match_result.candidate_info.skills %}
+                        <span style="background: #f8f9fa; padding: 5px 12px; border-radius: 15px; font-size: 0.85em; margin-right: 8px; margin-bottom: 5px; display: inline-block;">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if match_result.candidate_info.experience %}
+                <div class="info-item">
+                    <h4>💼 Experience</h4>
+                    {% for exp in match_result.candidate_info.experience %}
+                    <div style="margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                        {% if exp.position %}
+                        <strong>{{ exp.position }}</strong>
+                        {% if exp.company %} at {{ exp.company }}{% endif %}
+                        {% if exp.start_year %}
+                        <div style="color: #666; font-size: 0.9em;">
+                            {{ exp.start_year }} - {{ exp.end_year }}
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        {% if exp.description %}
+                        <p style="color: #666;">{{ exp.description }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if match_result.candidate_info.education %}
+                <div class="info-item">
+                    <h4>🎓 Education</h4>
+                    {% for edu in match_result.candidate_info.education %}
+                    <div style="margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                        <strong>{{ edu.degree }}</strong>
+                        {% if edu.institution %}
+                        <div style="color: #666;">{{ edu.institution }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <a href="{{ url_for('resume.dashboard') }}" class="back-link">← Back to Dashboard</a>
+    </div>
+</body>
+</html>
